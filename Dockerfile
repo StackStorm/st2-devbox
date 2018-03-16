@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     libssl-dev \
     libpq-dev \
+    libyaml-dev \
     # TOOLS
     curl \
     htop \
@@ -64,7 +65,7 @@ RUN \
     sed -i '/include \/etc\/nginx\/sites-enabled\//a\\tinclude /st2/conf/nginx/st2*.conf;' /etc/nginx/nginx.conf
 
 RUN \
-    # Install NodeJS for st2web development 
+    # Install NodeJS for st2web development
     curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash - && \
     apt-get install nodejs && \
     npm i -g gulp-cli lerna

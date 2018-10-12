@@ -1,6 +1,9 @@
-FROM ubuntu:xenial
+FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y \
+ENV DEBIAN_FRONTEND noninteractive
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+
+RUN apt update && apt install -y \
     # DEV KIT
     git \
     git-review \
@@ -25,7 +28,6 @@ RUN apt-get update && apt-get install -y \
     man \
     manpages \
     screen \
-    realpath \
     # Services
     rabbitmq-server \
     postgresql \
@@ -33,7 +35,8 @@ RUN apt-get update && apt-get install -y \
     nginx \
     openssh-server \
     supervisor \
-    locales
+    locales \
+    coreutils
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -44,8 +47,8 @@ RUN \
     # MongoDB 3.x
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 && \
     echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.2.list && \
-    apt-get update && \
-    apt-get install -y mongodb-org
+    apt update && \
+    apt install -y mongodb-org
 
 RUN \
     # StackStorm SSH system user
@@ -73,14 +76,24 @@ RUN \
 RUN \
     # Install NodeJS for st2web development
     curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash - && \
-    apt-get install nodejs && \
+    apt install nodejs && \
     npm i -g gulp-cli lerna
 
+# Lakshmi's dev settings
+RUN apt install -y zsh \
+    rake
+
+RUN wget https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb
+RUN dpkg -i ripgrep_0.10.0_amd64.deb
+
+# RUN sh -c "`curl -fsSL https://raw.githubusercontent.com/skwp/dotfiles/master/install.sh`"
+
+# Supervisord
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 CMD ["/usr/bin/supervisord"]
 
 EXPOSE 80 443
 
 VOLUME [ "/st2", "/st2web" ]
+VOLUME ["/root/.yadr", "/root/.zsh.after", "/root/.zsh.before" ]

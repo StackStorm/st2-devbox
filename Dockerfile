@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:xenial
 
 RUN apt-get update && apt-get install -y \
     # DEV KIT
@@ -32,7 +32,13 @@ RUN apt-get update && apt-get install -y \
     apache2-utils \
     nginx \
     openssh-server \
-    supervisor
+    supervisor \
+    locales
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 RUN \
     # MongoDB 3.x

@@ -37,9 +37,10 @@ RUN apt-get update && apt-get install -y \
 
 RUN locale-gen en_US.UTF-8
 RUN localedef -i en_US -c -f UTF-8 en_US.UTF-8
-ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV VIRTUALENV_DIR .venv-st2devbox
 
 RUN \
     # MongoDB 3.x

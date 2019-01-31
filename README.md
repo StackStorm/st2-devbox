@@ -1,6 +1,6 @@
 # StackStorm Development Container
 
-Somewhat of a drop-in dev environment replacement using docker for StackStorm. If you prefer to use Vagrant, use [st2devenv](https://github.com/StackStorm/st2devenv) instead for core StackStorm development.
+Somewhat of a drop-in dev environment replacement using docker for StackStorm. If you prefer to use Vagrant, use [st2vagrant](https://github.com/StackStorm/st2vagrant) instead for core StackStorm development.
 
 We also have [Vagrant environment with st2 pre-installed for pack development](https://github.com/StackStorm/st2vagrant) and a [docker evaluation of StackStorm product](https://github.com/StackStorm/st2-docker).
 
